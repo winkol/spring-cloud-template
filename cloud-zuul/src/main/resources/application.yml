@@ -1,0 +1,35 @@
+server:
+  port: 80
+
+spring:
+  application:
+    name: cloud-zuul
+
+zuul:
+  host:
+    connect-timeout-millis: 3000
+    socket-timeout-millis: 3000
+  routes:
+    aip-a:
+      path: /config-server/**
+      serviceId: config-server
+    aip-b:
+      path: /config-a/**
+      serviceId: config-client
+    aip-c:
+      path: /config-b/**
+      serviceId: config-client2
+    api-d:
+      path: /service-feign/**
+      serviceId: service-feign
+
+eureka:
+  instance:
+    preferIpAddress: true
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:9000//eureka/
+    # 这里才是关键
+    fetch-registry: true
+    register-with-eureka: true

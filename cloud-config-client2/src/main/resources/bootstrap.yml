@@ -1,0 +1,63 @@
+server:
+  port: 7003
+
+spring:
+  application:
+    # \u548Cgit\u91CC\u7684\u6587\u4EF6\u540D\u5BF9\u5E94
+    name: config-client2
+
+  #\u589E\u52A0rabbitmq\u914D\u7F6E
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+
+  cloud:
+    config:
+      # \u8FDC\u7A0B\u4ED3\u5E93\u7684\u5206\u652F
+      label: master
+      # dev \u5F00\u53D1\u73AF\u5883\u914D\u7F6E\u6587\u4EF6 |  test \u6D4B\u8BD5\u73AF\u5883  |  pro \u6B63\u5F0F\u73AF\u5883
+      # \u548Cgit\u91CC\u7684\u6587\u4EF6\u540D\u5BF9\u5E94
+      profile: dev
+      # \u6307\u660E\u914D\u7F6E\u670D\u52A1\u4E2D\u5FC3\u7684\u7F51\u5740
+      uri: http://localhost:7001/
+
+      #      discovery:
+      #        #\u8868\u793A\u5F00\u542F\u901A\u8FC7\u670D\u52A1\u540D\u6765\u8BBF\u95EEconfig-server
+      #        enabled: true
+      #        #\u8868\u793A\u6CE8\u518C\u4E2D\u5FC3config-server\u7684\u670D\u52A1\u540D
+      #        service-id: config
+
+      #\u542F\u52A8\u5931\u8D25\u65F6\u80FD\u591F\u5FEB\u901F\u54CD\u5E94
+      fail-fast: true
+    bus:
+      trace:
+        enabled: true
+
+#\u5B89\u5168\u4FDD\u62A4
+#spring.cloud.config.username=****
+#spring.cloud.config.password=****
+
+eureka:
+  instance:
+    preferIpAddress: true
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:9000//eureka/
+    # \u8FD9\u91CC\u624D\u662F\u5173\u952E
+    fetch-registry: true
+    register-with-eureka: true
+
+# spring boot 1.5 \u4E2Dbus-amqp\u914D\u7F6E \u5C4F\u853D\u5B89\u5168\u9A8C\u8BC1\u7684\u4EE3\u7801
+#management:
+#  security:
+#    enable: false
+# spring boot2.0 \u4E2Dbus-amqp\u914D\u7F6E
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh

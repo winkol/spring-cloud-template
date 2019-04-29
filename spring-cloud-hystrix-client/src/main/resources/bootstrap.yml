@@ -1,0 +1,22 @@
+server:
+  port: 7006
+spring:
+  application:
+    name: hystrix-client
+
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: '*'
+
+eureka:
+  instance:
+    preferIpAddress: true
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:9000//eureka/
+    # \u8FD9\u4E2A\u624D\u662F\u91CD\u70B9
+    fetch-registry: true
+    register-with-eureka: true

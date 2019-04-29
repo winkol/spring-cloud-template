@@ -1,0 +1,32 @@
+#应用名称
+spring:
+  application:
+    name: cloud-eureka
+
+#tomcat端口号
+server:
+  port: 9000
+
+#日志保存路径
+#logging:
+#  path: ${cloud.eureka.logging}
+
+#eureka配置
+eureka:
+  server:
+    # eureka自我保护,默认true
+    enable-self-preservation: true
+    # 关闭readOnlyCacheMap缓存,默认true
+    use-read-only-response-cache: false
+  instance:
+    hostname: 127.0.0.1
+    preferIpAddress: true
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+  client:
+    #是否向服务注册中心注册自己
+    registerWithEureka: false
+    #是否检索服务
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+

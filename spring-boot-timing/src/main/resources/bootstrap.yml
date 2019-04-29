@@ -1,0 +1,20 @@
+server:
+  port: 7008
+spring:
+  application:
+    name: service-timing
+
+eureka:
+  instance:
+    preferIpAddress: true
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:9000//eureka/
+    # \u4E3B\u8981\u914D\u7F6E
+    fetch-registry: true
+    register-with-eureka: true
+
+quartz:
+  scheduler1: 0/5 * * * * ? #每5秒执行
+  scheduler2: 0 0/1 * * * ? #每1分钟执行

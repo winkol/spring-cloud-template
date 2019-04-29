@@ -1,0 +1,63 @@
+server:
+  port: 7003
+
+spring:
+  application:
+    # 和git里的文件名对应
+    name: config-client
+
+  #增加rabbitmq配置
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+
+  cloud:
+    config:
+      # 远程仓库的分支
+      label: master
+      # dev 开发环境配置文件 |  test 测试环境  |  pro 正式环境
+      # 和git里的文件名对应
+      profile: dev
+      # 指明配置服务中心的网址
+      uri: http://localhost:7001/
+
+#      discovery:
+#        #表示开启通过服务名来访问config-server
+#        enabled: true
+#        #表示注册中心config-server的服务名
+#        service-id: config
+
+      #启动失败时能够快速响应
+      fail-fast: true
+    bus:
+      trace:
+        enabled: true
+
+#安全保护
+#spring.cloud.config.username=****
+#spring.cloud.config.password=****
+
+eureka:
+  instance:
+    preferIpAddress: true
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:9000//eureka/
+    # 这里才是关键
+    fetch-registry: true
+    register-with-eureka: true
+
+# spring boot 1.5 中bus-amqp配置 屏蔽安全验证的代码
+#management:
+#  security:
+#    enable: false
+# spring boot2.0 中bus-amqp配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh
