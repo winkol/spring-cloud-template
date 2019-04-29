@@ -1,0 +1,33 @@
+.gradle
+build
+gradle
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.imlnetflix
+*.ipr
+out
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+dist
+/nbdist/
+/.nb-gradle/
+
+### other ###
+rebel.xml
+node_modules/
+package-lock.json
+yarn.lock
+*.iml
+
