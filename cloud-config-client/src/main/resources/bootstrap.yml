@@ -16,19 +16,22 @@ spring:
 
   cloud:
     config:
-      # 远程仓库的分支
-      label: master
       # dev 开发环境配置文件 |  test 测试环境  |  pro 正式环境
       # 和git里的文件名对应
       profile: dev
-      # 指明配置服务中心的网址
-      uri: http://localhost:7001/
 
-#      discovery:
-#        #表示开启通过服务名来访问config-server
-#        enabled: true
-#        #表示注册中心config-server的服务名
-#        service-id: config
+#      调用方式1
+      # 远程仓库的分支
+#      label: master
+      # 指明配置服务中心的网址
+#      uri: http://localhost:7001/
+
+#      调用方式-2
+      discovery:
+        #表示开启通过服务名来访问config-server
+        enabled: true
+        #表示注册中心config-server的服务名
+        service-id: config-server
 
       #启动失败时能够快速响应
       fail-fast: true

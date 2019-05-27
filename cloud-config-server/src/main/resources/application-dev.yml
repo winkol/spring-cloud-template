@@ -1,0 +1,49 @@
+server:
+  port: 7001
+
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          # 配置git仓库地址
+          uri: git@github.com:winkol/myspringcloudconfig.git
+          # 配置仓库路径
+          search-paths: myspringcloudconfig
+          # 访问git仓库的用户名
+          username: winkol
+          # 访问git仓库的用户密码 如果Git仓库为公开仓库，可以不填写用户名和密码，如果是私有仓库需要填写
+          password: Z123123a
+          #更改本地仓库clone的配置文件信息的路径
+          basedir: E:\\ld_work\\workspaces\\ideaIU\\spring-cloud\\myspringcloudconfig
+
+        #配置中心服务端健康监测器
+        health:
+          #开启或者关闭健康监测功能，默认是true开启状态
+        #  enabled: true
+
+          repositories:
+            check:
+              name: config-client
+              label: master
+              profiles: dev
+
+      # 配置仓库的分支
+      label: master
+
+#安全保护
+#security.user.name=*******
+#security.user.password=*****
+
+eureka:
+  instance:
+    preferIpAddress: true
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:9000//eureka/
+    #这里才是关键
+    fetch-registry: true
+    register-with-eureka: true
