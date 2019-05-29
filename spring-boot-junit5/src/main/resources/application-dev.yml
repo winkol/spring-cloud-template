@@ -1,0 +1,18 @@
+server:
+  port: 7009
+
+spring:
+  application:
+    # 和git里的文件名对应
+    name: junit5
+
+eureka:
+  instance:
+    preferIpAddress: true
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:9000//eureka/
+    # 这里才是关键
+    fetch-registry: true
+    register-with-eureka: true
