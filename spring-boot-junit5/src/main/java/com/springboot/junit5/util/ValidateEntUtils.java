@@ -1,6 +1,10 @@
 package com.springboot.junit5.util;
 
+import com.springboot.junit5.exception.ParamIncorrectException;
 import com.springboot.junit5.mode.ResponseDataVO;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -68,5 +72,25 @@ public class ValidateEntUtils {
             return messageList;
         }
         return null;
+    }
+
+    /**
+     * 通过注解 @Valid 验证参数
+     * @param bindingResult-s
+     */
+    public static void validationBind(BindingResult bindingResult) {
+        // 请求参数检查结果处理
+        // 1.
+        /*if (bindingResult.hasErrors()) {
+            FieldError fieldError = bindingResult.getFieldError();
+            throw new ParamIncorrectException(ResultCode.PARAM_ERROR, fieldError.getDefaultMessage());
+        }*/
+
+        // 2.
+        if (bindingResult.hasErrors()) {
+            for (ObjectError objectError : bindingResult.getAllErrors()) {
+                throw new ParamIncorrectException(ResultCode.PARAM_ERROR, objectError.getDefaultMessage());
+            }
+        }
     }
 }

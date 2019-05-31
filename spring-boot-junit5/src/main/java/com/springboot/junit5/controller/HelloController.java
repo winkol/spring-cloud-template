@@ -5,6 +5,7 @@ import com.springboot.junit5.mode.ResponseDataVO;
 import com.springboot.junit5.util.ProposalInfoValidate;
 import com.springboot.junit5.util.ValidateEntUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -53,9 +54,18 @@ public class HelloController {
         return responseDataVO;
     }
 
+    /**
+     * ValidateEntUtils.validationBind等参数处理
+     * @param requestDataVO
+     * @param bindingResult
+     * @return
+     */
     @RequestMapping(value = "/test/hi3", method = RequestMethod.POST)
-    public ResponseDataVO testHi3(@Valid @RequestBody RequestDataVO requestDataVO){
+    public ResponseDataVO testHi3(@Valid @RequestBody RequestDataVO requestDataVO, BindingResult bindingResult){
         log.info("->> HelloController.hello: {}", requestDataVO.toString());
+
+        // 参数错误抛出
+        ValidateEntUtils.validationBind(bindingResult);
         ResponseDataVO responseDataVO = initData();
         log.info("->> {}", responseDataVO.toString());
         return responseDataVO;
