@@ -26,4 +26,6 @@
     链路追踪
 # spring-boot-junit5:7009
     单元测试
+# spring-boot-threadqueue:7010
+    ThreadPoolExecutor线程池+Queue缓冲队列实现高并发中进行下单业务
 
