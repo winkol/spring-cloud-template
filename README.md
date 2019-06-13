@@ -28,4 +28,11 @@
     单元测试
 # spring-boot-threadqueue:7010
     ThreadPoolExecutor线程池+Queue缓冲队列实现高并发中进行下单业务
+    1、Java并发编程：线程池的使用
+    https://www.cnblogs.com/dolphin0520/p/3932921.html
+    https://www.jianshu.com/p/13bf60545410?utm_campaign=maleskine&utm_content=note&utm_medium=seo_notes&utm_source=recommendation
+    
+    2、Java多线程-线程池ThreadPoolExecutor构造方法和规则
+    https://blog.csdn.net/qq_25806863/article/details/71126867#commentBox
+    
 

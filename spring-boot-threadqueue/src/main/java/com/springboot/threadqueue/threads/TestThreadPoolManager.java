@@ -1,5 +1,6 @@
 package com.springboot.threadqueue.threads;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -14,6 +15,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -66,12 +68,16 @@ public class TestThreadPoolManager implements BeanFactoryAware {
     };
 
 
-    /**创建线程池*/
+    /**
+     * 创建线程池
+     */
     final ThreadPoolExecutor threadPool = new ThreadPoolExecutor(CORE_POOL_SIZE, MAX_POOL_SIZE, KEEP_ALIVE_TIME, TimeUnit.SECONDS, new ArrayBlockingQueue(WORK_QUEUE_SIZE), this.handler);
 
 
-    /**将任务加入订单线程池*/
-    public void addOrders(String orderId){
+    /**
+     * 将任务加入订单线程池
+     */
+    public void addOrders(String orderId) {
         System.out.println("此订单准备添加到线程池，订单号：" + orderId);
         //验证当前进入的订单是否已经存在
         if (cacheMap.get(orderId) == null) {
@@ -86,6 +92,40 @@ public class TestThreadPoolManager implements BeanFactoryAware {
      */
     final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(5);
 
+    /**
+     * 手动创建线程池
+     */
+    @Deprecated
+    private void manualCreateThread() {
+        /**
+         * 手动创建线程池
+         */
+        // 创建线程工厂
+        ThreadFactory threadFactory = new ThreadFactoryBuilder()
+                .setNameFormat("xxx-pool-%d")
+                .build();
+        // 创建通用线程池
+        /**
+         * 参数含义：
+         *      corePoolSize : 线程池中常驻的线程数量。核心线程数，默认情况下核心线程会一直存活，即使处于闲置状态也不会受存keepAliveTime限制。除非将allowCoreThreadTimeOut设置为true。
+         *      maximumPoolSize : 线程池所能容纳的最大线程数。超过这个数的线程将被阻塞。当任务队列为没有设置大小的LinkedBlockingDeque时，这个值无效。
+         *      keepAliveTime : 当线程数量多于 corePoolSize 时，空闲线程的存活时长，超过这个时间就会被回收
+         *      unit : keepAliveTime 的时间单位
+         *      workQueue : 存放待处理任务的队列，该队列只接收 Runnable 接口
+         *      threadFactory : 线程创建工厂
+         *      handler : 当线程池中的资源已经全部耗尽，添加新线程被拒绝时，会调用RejectedExecutionHandler的rejectedExecution方法，参考 ThreadPoolExecutor 类中的内部策略类
+         */
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(5, 200, 0L,
+                TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<>(1024),
+                threadFactory,
+                new ThreadPoolExecutor.AbortPolicy());
+        for (int i = 0; i < 1000; i++) {
+            threadPoolExecutor.execute(() ->
+                    System.out.println(Thread.currentThread().getName()));
+        }
+        threadPoolExecutor.shutdown();
+    }
 
     /**
      * 检查(调度线程池)，每秒执行一次，查看订单的缓冲队列是否有 订单记录，则重新加入到线程池
@@ -94,28 +134,32 @@ public class TestThreadPoolManager implements BeanFactoryAware {
         @Override
         public void run() {
             //判断缓冲队列是否存在记录
-            if(!msgQueue.isEmpty()){
+            if (!msgQueue.isEmpty()) {
                 //当线程池的队列容量少于WORK_QUEUE_SIZE，则开始把缓冲队列的订单 加入到 线程池
                 if (threadPool.getQueue().size() < WORK_QUEUE_SIZE) {
                     String orderId = (String) msgQueue.poll();
                     BusinessThread businessThread = new BusinessThread(orderId);
                     threadPool.execute(businessThread);
-                    System.out.println("(调度线程池)缓冲队列出现订单业务，重新添加到线程池，订单号："+orderId);
+                    System.out.println("(调度线程池)缓冲队列出现订单业务，重新添加到线程池，订单号：" + orderId);
                 }
             }
         }
     }, 0, 1, TimeUnit.SECONDS);
 
 
-    /**获取消息缓冲队列*/
+    /**
+     * 获取消息缓冲队列
+     */
     public Queue<Object> getMsgQueue() {
         return msgQueue;
     }
 
-    /**终止订单线程池+调度线程池*/
+    /**
+     * 终止订单线程池+调度线程池
+     */
     public void shutdown() {
         //true表示如果定时任务在执行，立即中止，false则等待任务结束后再停止
-        System.out.println("终止订单线程池+调度线程池："+scheduledFuture.cancel(false));
+        System.out.println("终止订单线程池+调度线程池：" + scheduledFuture.cancel(false));
         scheduler.shutdown();
         threadPool.shutdown();
 
