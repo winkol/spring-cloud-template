@@ -1,0 +1,5 @@
+mytest:
+  this is 'test' mytest 1.0
+
+server:
+  port: 7013

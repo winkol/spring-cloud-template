@@ -1,0 +1,26 @@
+server:
+  port: 7001
+
+spring:
+  application:
+    name: config-server
+
+  cloud:
+    config:
+      native:
+        searchLocations: file:./config
+
+#安全保护
+#security.user.name=*******
+#security.user.password=*****
+
+eureka:
+  instance:
+    preferIpAddress: true
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:9000//eureka/
+    #这里才是关键
+    fetch-registry: true
+    register-with-eureka: true

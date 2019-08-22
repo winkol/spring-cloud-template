@@ -1,0 +1,5 @@
+mytest:
+  this is 'pro' mytest 1.1
+
+server:
+  port: 7023
