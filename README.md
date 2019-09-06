@@ -58,6 +58,10 @@
     链路追踪
 # spring-boot-junit5:7009
     单元测试
+    1、请求参数校验
+    2、后台请求
+    3、请求，响应拦截（LogAspectConfig）
+    4、...
 # spring-boot-threadqueue:7010
     ThreadPoolExecutor线程池+Queue缓冲队列实现高并发中进行下单业务
     1、Java并发编程：线程池的使用

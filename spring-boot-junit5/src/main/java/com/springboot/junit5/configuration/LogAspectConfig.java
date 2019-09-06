@@ -19,7 +19,7 @@ import java.lang.reflect.Method;
 /**
  * @Author: Dong.L
  * @Create: 2019-07-19 16:33
- * @Description: java类描述
+ * @Description: 请求拦截
  */
 @Slf4j
 @Aspect
