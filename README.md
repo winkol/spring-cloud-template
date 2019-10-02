@@ -61,7 +61,9 @@
     1、请求参数校验
     2、后台请求
     3、请求，响应拦截（LogAspectConfig）
-    4、...
+    4、springboot之多任务并行+线程池处理
+    5、普通类获取bean工具类（SpringContextUtil）
+    6、...
 # spring-boot-threadqueue:7010
     ThreadPoolExecutor线程池+Queue缓冲队列实现高并发中进行下单业务
     1、Java并发编程：线程池的使用
@@ -70,5 +72,11 @@
     
     2、Java多线程-线程池ThreadPoolExecutor构造方法和规则
     https://blog.csdn.net/qq_25806863/article/details/71126867#commentBox
-    
+  
+# spring-boot-apollo:7011
+    阿波罗  远程配置管理工程  
+    服务启动：E:\ld_work\workspaces\ideaIU\apollo\apollo-build-scripts
+    demo.sh start
+# spring-boot-mybatis:7012
+    springboot+mybatis框架  (springboot+jpa)
 

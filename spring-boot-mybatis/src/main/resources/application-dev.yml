@@ -1,0 +1,40 @@
+server:
+  port: 7012
+
+spring:
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+    hikari:
+      maximum-pool -size: 20
+      minimum-idle: 5
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
+    #配置指明在程序启动的时候要删除并且创建实体类对应的表。这个参数很危险，因为他会把对应的表删除掉然后重建。
+    #所以千万不要在生成环境中使用。只有在测试环境中，一开始初始化数据库结构的时候才能使用一次。
+#    hibernate.ddl-auto: create
+
+mybatis:
+  mapper-locations: classpath:mapping/*Mapper.xml
+  type-aliases-package: com.springboot.mybatis.domel.entity
+
+# https://www.jianshu.com/p/c14640b63653
+# Hikari 数据源专用配置
+#spring.datasource.hikari.maximum-pool-size=20
+#spring.datasource.hikari.minimum-idle=5
+# JPA 相关配置
+#spring.jpa.database-platform=org.hibernate.dialect.MySQL5InnoDBDialect
+#spring.jpa.show-sql=true
+#spring.jpa.hibernate.ddl-auto=create
+
+#showSql
+logging:
+  level:
+    com:
+      example:
+        mapper : debug
