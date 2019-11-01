@@ -73,10 +73,19 @@
     2、Java多线程-线程池ThreadPoolExecutor构造方法和规则
     https://blog.csdn.net/qq_25806863/article/details/71126867#commentBox
   
+    3、并发框架disruptor（高性能内存Queue）
+    https://blog.csdn.net/fenglongmiao/article/details/79203788
+    https://blog.csdn.net/xsh5324/article/details/84595717
+    架构师入门笔记八 并发框架Disruptor场景应用
+    https://blog.csdn.net/xsh5324/article/details/84595717
 # spring-boot-apollo:7011
     阿波罗  远程配置管理工程  
     服务启动：E:\ld_work\workspaces\ideaIU\apollo\apollo-build-scripts
     demo.sh start
+    
+    springboot-监听apollo配置
+    https://blog.csdn.net/qq_31289187/article/details/84346529
+    https://blog.csdn.net/fenglongmiao/article/details/81460213
 # spring-boot-mybatis:7012
     springboot+mybatis框架  (springboot+jpa)
 
