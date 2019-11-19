@@ -1,0 +1,55 @@
+#公共配置与profiles选择无关 mapperLocations指的路径是src/main/resources
+#公共配置与profiles选择无关
+mybatis:
+  typeAliasesPackage: com.springboot.druid.model.entity
+  mapperLocations: classpath:mappers/*.xml
+
+
+---
+
+#开发配置
+spring:
+  profiles: dev
+
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    username: root
+#    password: root
+    password: VjvKq2D9iZRkScoUwD5EcqhHn3pULw+6SP1Sxq7v7NYlI24HWsHSzGY2cQ4ff8RzGL7UWYYhHWtf3Z4n2meQ2w==
+    publicKey: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJFZ/P3Chv4lH6TsmKIQFYKF6AAqqTu7sf/nqkZSe7VOwcu+5/161OB6/IICfVCLujqGNctiEqsNYenBFER3wSUCAwEAAQ==
+    driverClassName: com.mysql.cj.jdbc.Driver
+    # 使用druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    # 配置获取连接等待超时的时间
+    # 下面为连接池的补充设置，应用到上面所有数据源中
+    # 初始化大小，最小，最大
+    initialSize: 1
+    minIdle: 3
+    maxActive: 20
+    # 配置获取连接等待超时的时间
+    maxWait: 60000
+    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    timeBetweenEvictionRunsMillis: 60000
+    # 配置一个连接在池中最小生存的时间，单位是毫秒
+    minEvictableIdleTimeMillis: 30000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    # 打开PSCache，并且指定每个连接上PSCache的大小
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall,slf4j
+    # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    # 合并多个DruidDataSource的监控数据
+    useGlobalDataSourceStat: true
+
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
+    #配置指明在程序启动的时候要删除并且创建实体类对应的表。这个参数很危险，因为他会把对应的表删除掉然后重建。
+    #所以千万不要在生成环境中使用。只有在测试环境中，一开始初始化数据库结构的时候才能使用一次。
+  #    hibernate.ddl-auto: create

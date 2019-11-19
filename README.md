@@ -88,4 +88,11 @@
     https://blog.csdn.net/fenglongmiao/article/details/81460213
 # spring-boot-mybatis:7012
     springboot+mybatis框架  (springboot+jpa)
+# spring-boot-druid:7013
+    springboot+druid框架
+    1、集成jpa/mybatis
+    2、连接串加密druid(扩展sharding)
+    3、请求响应拦截/异常拦截
+    4、分页插件PageHelper
+    5、...
 

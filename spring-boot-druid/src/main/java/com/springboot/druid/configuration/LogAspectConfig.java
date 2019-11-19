@@ -1,9 +1,12 @@
-package com.springboot.junit5.configuration;
+package com.springboot.druid.configuration;
 
-import com.alibaba.fastjson.JSON;
-import com.springboot.junit5.util.StringUtils;
+import com.alibaba.druid.support.json.JSONUtils;
+import com.springboot.druid.util.ObjectMapperUtils;
+import com.springboot.druid.util.StringUtils;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.connector.RequestFacade;
+import org.apache.catalina.connector.ResponseFacade;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -13,9 +16,12 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author: Dong.L
@@ -30,7 +36,7 @@ public class LogAspectConfig {
     /**
      * Service层节点
      */
-    @Pointcut("@annotation(com.springboot.junit5.annotation.ServiceLogs)")
+    @Pointcut("@annotation(com.springboot.druid.annotation.ServiceLogs)")
     public void serviceAspect() {
 
     }
@@ -38,7 +44,7 @@ public class LogAspectConfig {
     /**
      * Controller层切点
      */
-    @Pointcut("@annotation(com.springboot.junit5.annotation.ControllerLogs)")
+    @Pointcut("@annotation(com.springboot.druid.annotation.ControllerLogs)")
     public void controllerAspect() {
 
     }
@@ -51,13 +57,25 @@ public class LogAspectConfig {
     @Before("controllerAspect()")
     public void doBeFore(JoinPoint joinPoint) {
         try {
-            HttpServletRequest request = (HttpServletRequest) RequestContextHolder.getRequestAttributes();
+            HttpServletRequest request =
+                    ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
             // 类名
             String className = joinPoint.getTarget().getClass().getName();
             // 请求方法
             String method = joinPoint.getSignature().getName() + "()";
             // 方法参数
-            String methodParam = JSON.toJSONString(joinPoint.getArgs());
+//            String methodParam = JSONUtils.toJSONString(joinPoint.getArgs());
+            String methodParam = "";
+            if (joinPoint.getArgs() != null && joinPoint.getArgs().length > 0) {
+                List<Object> args = new ArrayList<>();
+                for (Object arg : joinPoint.getArgs()) {
+                    if (arg instanceof RequestFacade || arg instanceof MultipartFile || arg instanceof ResponseFacade) {
+                        continue;
+                    }
+                    args.add(arg);
+                }
+                methodParam = (args.size() > 0 ? ObjectMapperUtils.writeValueAsString(args) : methodParam);
+            }
             // 方法描述
             String methodDescription = getControllerMethodDescription(joinPoint);
             StringBuilder sb = new StringBuilder(1000);
@@ -78,39 +96,51 @@ public class LogAspectConfig {
         }
     }
 
+    /**
+     * @param: [ret]
+     * @return: void
+     * @Author: Dong.L
+     * @Date: 2019/11/19 11:13
+     * @Description: 响应拦截处理
+     */
     @AfterReturning(returning = "ret", pointcut = "controllerAspect()")
-    public void doAfterReturning(Object ret) throws Throwable {
-        HttpServletRequest request = (HttpServletRequest) RequestContextHolder.getRequestAttributes();
+    public void doAfterReturning(Object ret) throws Exception {
+        HttpServletRequest request =
+                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String method = StringUtils.abbr(request.getRequestURI(), 255);
         StringBuilder sb = new StringBuilder(1000);
         // 处理完请求，返回内容
         sb.append("\n");
+        sb.append("method       :").append(method).append("\n");
         sb.append("Result       :").append(ret);
         log.info(sb.toString());
     }
 
     /**
      * 异常通知，用于拦截service层记录异常日志
+     * (视情况使用，已存在全局异常拦截'GlobalExceptionHandler')
+     *
      * @param joinPoint
      * @param ex
      */
     @AfterThrowing(pointcut = "serviceAspect()", throwing = "ex")
     public void doAfterThrowing(JoinPoint joinPoint, Throwable ex) {
         try {
-            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+            HttpServletRequest request =
+                    ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
             // 类名
             String className = joinPoint.getTarget().getClass().getName();
             // 请求方法
             String method = joinPoint.getSignature().getName() + "()";
             // 方法参数
-            String methodParam = JSON.toJSONString(joinPoint.getArgs());
+//            String methodParam = JSONUtils.toJSONString(joinPoint.getArgs());
             // 方法描述
             String methodDescription = getServiceMethodDescription(joinPoint);
             // 获取用户请求方法的参数并序列化为JSON格式字符串
             String params = "";
             if (joinPoint.getArgs() != null && joinPoint.getArgs().length > 0) {
                 for (int i = 0; i < joinPoint.getArgs().length; i++) {
-                    params += JSON.toJSONString(joinPoint.getArgs()[i]) + ",";
+                    params += JSONUtils.toJSONString(joinPoint.getArgs()[i]) + ",";
                 }
             }
             StringBuilder sb = new StringBuilder(1000);
@@ -122,8 +152,8 @@ public class LogAspectConfig {
             sb.append("Params           :").append("[" + params + "]").append("\n");
             sb.append("Type             :").append(request.getMethod()).append("\n");
             sb.append("Description      :").append(methodDescription).append("\n");
-            sb.append("ExceptionName    :").append(methodDescription).append("\n");
-            sb.append("ExceptionMessage :").append(methodDescription).append("\n");
+            sb.append("ExceptionName    :").append(ex.getClass().getName()).append("\n");
+            sb.append("ExceptionMessage :").append(ex.getMessage()).append("\n");
             log.info(sb.toString());
         } catch (Exception el) {
             log.error("error: {}", el);
@@ -132,6 +162,7 @@ public class LogAspectConfig {
 
     /**
      * 获取注解中对方法的描述信息 用于service层注解
+     *
      * @param joinPoint 节点
      * @return 方法描述
      * @throws Exception
@@ -158,6 +189,7 @@ public class LogAspectConfig {
 
     /**
      * 获取注解中对方法的描述信息 用于Controller层注解
+     *
      * @param joinPoint 节点
      * @return 方法描述
      * @throws Exception
