@@ -15,16 +15,19 @@ public class User {
     private String userName;
     private String passWord;
     private String realName;
+    private String createdTime;
+    private String updatedTime;
 
     @Override
     public String toString() {
-        return "DEFAULT_STYLE: " + ToStringBuilder.reflectionToString(this, ToStringStyle.DEFAULT_STYLE)
-                + "\nSIMPLE_STYLE: " + ToStringBuilder.reflectionToString(this, ToStringStyle.SIMPLE_STYLE)
+        return  ""
+//                "DEFAULT_STYLE: " + ToStringBuilder.reflectionToString(this, ToStringStyle.DEFAULT_STYLE)
+//                + "\nSIMPLE_STYLE: " + ToStringBuilder.reflectionToString(this, ToStringStyle.SIMPLE_STYLE)
 //                + "\nJSON_STYLE: " + ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE)
-                + "\nMULTI_LINE_STYLE: " + ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE)
+//                + "\nMULTI_LINE_STYLE: " + ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE)
                 + "\nSHORT_PREFIX_STYLE: " + ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE)
 //                + "\nNO_CLASS_NAME_STYLE: " + ToStringBuilder.reflectionToString(this, ToStringStyle.NO_CLASS_NAME_STYLE)
-                + "\nNO_FIELD_NAMES_STYLE: " + ToStringBuilder.reflectionToString(this, ToStringStyle.NO_FIELD_NAMES_STYLE)
+//                + "\nNO_FIELD_NAMES_STYLE: " + ToStringBuilder.reflectionToString(this, ToStringStyle.NO_FIELD_NAMES_STYLE)
                 ;
     }
 }

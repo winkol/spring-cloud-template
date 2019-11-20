@@ -94,5 +94,7 @@
     2、连接串加密druid(扩展sharding)
     3、请求响应拦截/异常拦截
     4、分页插件PageHelper
-    5、...
+    5、SHA256加密算法(SHA256Util)
+    6、RestTemplate配置(RestTemplateConfig)
+    7、...
 

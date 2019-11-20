@@ -80,7 +80,7 @@ public class UserController {
     @ControllerLogs
     @ResponseBody
     @RequestMapping(value = "/testPage", method = RequestMethod.POST)
-    public String pageUser(@RequestBody Query query) {
+    public List<User> pageUser(@RequestBody Query query) {
         log.info("->> testPage");
         Paging page = query.getPage();
         if (page == null) {
@@ -89,7 +89,7 @@ public class UserController {
         PageHelper.startPage(page.getPage(), page.getPageSize());
         List<User> users = userMapper.pageAll(query.getCondition(), query.getOrderByClause());
         log.info("->> users: {}", users);
-        return users.toString();
+        return users;
     }
 
     /**

@@ -26,6 +26,10 @@ public class UserJpa {
     private String passWord;
     @Column(length = 50)
     private String realName;
+    @Column(name = "created_time")
+    private String createdTime;
+    @Column(name = "updated_time")
+    private String updatedTime;
 
     @Override
     public String toString() {

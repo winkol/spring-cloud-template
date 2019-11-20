@@ -7,6 +7,8 @@
         <result column="userName" jdbcType="VARCHAR" property="userName" />
         <result column="passWord" jdbcType="VARCHAR" property="passWord" />
         <result column="realName" jdbcType="VARCHAR" property="realName" />
+        <result column="created_time" property="createdTime" />
+        <result column="updated_time" property="updatedTime" />
     </resultMap>
 
     <select id="info" resultType="com.springboot.druid.model.entity.User">
