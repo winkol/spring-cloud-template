@@ -101,8 +101,9 @@
         springboot集成ftp: https://cloud.tencent.com/developer/article/1432735
         java操作ftp: https://cloud.tencent.com/developer/article/1140399
         win10中搭建并配置ftp服务器的方法: https://blog.csdn.net/baidu_38760069/article/details/88798825
-    8、Java给图片和PDF文件添加水印(图片水印和文字水印)
-        https://www.cnblogs.com/qlqwjy/p/9326468.html
+    8、图片和PDF文件添加水印
+        Java给图片和PDF文件添加水印(图片水印和文字水印)：https://www.cnblogs.com/qlqwjy/p/9326468.html
+        java添加多个水印：https://www.cnblogs.com/SimonHu1993/p/9399752.html
     9、...
 
 # 项目插件
