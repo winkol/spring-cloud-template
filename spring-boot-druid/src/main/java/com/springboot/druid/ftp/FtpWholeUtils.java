@@ -3,6 +3,7 @@ package com.springboot.druid.ftp;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
+import sun.misc.BASE64Encoder;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,13 +21,13 @@ import java.net.MalformedURLException;
  */
 public class FtpWholeUtils {
     //ftp服务器地址
-    public String hostname = "192.168.1.249";
+    public String hostname = "172.20.10.7";
     //ftp服务器端口号默认为21
     public Integer port = 21;
     //ftp登录账号
-    public String username = "root";
+    public String username = "admin";
     //ftp登录密码
-    public String password = "123";
+    public String password = "123456";
 
     public FTPClient ftpClient = null;
 
@@ -274,6 +275,7 @@ public class FtpWholeUtils {
                 if (fileName.equalsIgnoreCase(file.getName())) {
                     File localFile = new File(localPath + "/" + file.getName());
                     os = new FileOutputStream(localFile);
+                    System.out.println(os);
                     ftpClient.retrieveFile(file.getName(), os);
                     os.close();
                 }
@@ -336,11 +338,77 @@ public class FtpWholeUtils {
         return flag;
     }
 
+    /**
+     * 读ftp上的文件，并将其转换成base64
+     *
+     * @param pathName       ftp服务器上文件目录
+     * @param remoteFileName ftp服务器上的文件名
+     * @return
+     */
+    public String readFileToBase64(String pathName, String remoteFileName) {
+        initFtpClient();
+
+        String base64 = "";
+        InputStream inputStream = null;
+
+        try {
+            ftpClient.changeWorkingDirectory(pathName);
+            FTPFile[] ftpFiles = ftpClient.listFiles(pathName);
+            Boolean flag = false;
+            //遍历当前目录下的文件，判断要读取的文件是否在当前目录下
+            for (FTPFile ftpFile : ftpFiles) {
+                if (ftpFile.getName().equals(remoteFileName)) {
+                    flag = true;
+                }
+            }
+
+            if (!flag) {
+                System.err.println("directory：{}下没有 {}" + pathName + remoteFileName);
+                return null;
+            }
+            //获取待读文件输入流
+            inputStream = ftpClient.retrieveFileStream(pathName + "/" + remoteFileName);
+
+            //inputStream.available() 获取返回在不阻塞的情况下能读取的字节数，正常情况是文件的大小
+            byte[] bytes = new byte[inputStream.available()];
+
+            //将文件数据读到字节数组中
+            inputStream.read(bytes);
+            BASE64Encoder base64Encoder = new BASE64Encoder();
+            //将字节数组转成base64字符串
+            base64 = base64Encoder.encode(bytes);
+            System.out.println("read file {} success" + remoteFileName);
+            ftpClient.logout();
+        } catch (IOException e) {
+            System.err.println("read file fail ----->>>" + e.getCause());
+            return null;
+        } finally {
+            if (ftpClient.isConnected()) {
+                try {
+                    ftpClient.disconnect();
+                } catch (IOException e) {
+                    System.err.println("disconnect fail ------->>>" + e.getCause());
+                }
+            }
+
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    System.err.println("inputStream close fail -------- " + e.getCause());
+                }
+            }
+        }
+        System.out.println("->> base64: " + base64);
+        return base64;
+    }
+
     public static void main(String[] args) {
         FtpWholeUtils ftp = new FtpWholeUtils();
-        //ftp.uploadFile("ftpFile/data", "123.docx", "E://123.docx");
-        //ftp.downloadFile("ftpFile/data", "123.docx", "F://");
-        ftp.deleteFile("ftpFile/data", "123.docx");
+//        ftp.uploadFile("/img", "lv2.jpg", "F://Photo//lv2.jpg");
+//        ftp.downloadFile("/img", "lv2.jpg", "E://temp//ftp//");
+//        ftp.deleteFile("/img", "lv2.jpg");
+        ftp.readFileToBase64("/img", "lv2.jpg");
         System.out.println("ok");
     }
 }
