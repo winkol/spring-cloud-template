@@ -96,5 +96,17 @@
     4、分页插件PageHelper
     5、SHA256加密算法(SHA256Util)
     6、RestTemplate配置(RestTemplateConfig)
-    7、...
+    7、文件上传FTP文件服务器
+        SpringBoot整合自定义FTP文件连接池：https://cloud.tencent.com/developer/article/1432737
+        springboot集成ftp: https://cloud.tencent.com/developer/article/1432735
+        java操作ftp: https://cloud.tencent.com/developer/article/1140399
+    8、...
 
+# 项目插件
+    1、阿里巴巴Java开发规约IDEA插件安装及使用
+        alibaba即可看到Alibaba Java Code Guidelines插件
+        https://www.cnblogs.com/cnndevelop/p/7697920.html
+    2、使用 FindBugs-IDEA 插件查找代码中潜在的 BUG
+        https://www.jianshu.com/p/e6c264134602
+    3、IDEA安装Sonarlint 代码扫描插件
+        https://blog.csdn.net/weixin_42343424/article/details/84979830
