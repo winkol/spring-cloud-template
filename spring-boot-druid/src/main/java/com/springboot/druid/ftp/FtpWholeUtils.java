@@ -58,22 +58,22 @@ public class FtpWholeUtils {
     /**
      * 上传文件
      *
-     * @param pathname       ftp服务保存地址
+     * @param pathName       ftp服务保存地址
      * @param fileName       上传到ftp的文件名
-     * @param originfilename 待上传文件的名称（绝对地址） *
+     * @param originFileName 待上传文件的名称（绝对地址）
      * @return
      */
-    public boolean uploadFile(String pathname, String fileName, String originfilename) {
+    public boolean uploadFile(String pathName, String fileName, String originFileName) {
         boolean flag = false;
         InputStream inputStream = null;
         try {
             System.out.println("开始上传文件");
-            inputStream = new FileInputStream(new File(originfilename));
+            inputStream = new FileInputStream(new File(originFileName));
             initFtpClient();
             ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
-            CreateDirecroty(pathname);
-            ftpClient.makeDirectory(pathname);
-            ftpClient.changeWorkingDirectory(pathname);
+            CreateDirecroty(pathName);
+            ftpClient.makeDirectory(pathName);
+            ftpClient.changeWorkingDirectory(pathName);
             ftpClient.storeFile(fileName, inputStream);
             inputStream.close();
             ftpClient.logout();
@@ -104,20 +104,20 @@ public class FtpWholeUtils {
     /**
      * 上传文件
      *
-     * @param pathname    ftp服务保存地址
+     * @param pathName    ftp服务保存地址
      * @param fileName    上传到ftp的文件名
      * @param inputStream 输入文件流
      * @return
      */
-    public boolean uploadFile(String pathname, String fileName, InputStream inputStream) {
+    public boolean uploadFile(String pathName, String fileName, InputStream inputStream) {
         boolean flag = false;
         try {
             System.out.println("开始上传文件");
             initFtpClient();
             ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
-            CreateDirecroty(pathname);
-            ftpClient.makeDirectory(pathname);
-            ftpClient.changeWorkingDirectory(pathname);
+            CreateDirecroty(pathName);
+            ftpClient.makeDirectory(pathName);
+            ftpClient.changeWorkingDirectory(pathName);
             ftpClient.storeFile(fileName, inputStream);
             inputStream.close();
             ftpClient.logout();
@@ -256,23 +256,23 @@ public class FtpWholeUtils {
     /**
      * 下载文件
      *
-     * @param pathname  FTP服务器文件目录
-     * @param filename  文件名称
-     * @param localpath 下载后的文件路径
+     * @param pathName  FTP服务器文件目录
+     * @param fileName  文件名称
+     * @param localPath 下载后的文件路径
      * @return
      */
-    public boolean downloadFile(String pathname, String filename, String localpath) {
+    public boolean downloadFile(String pathName, String fileName, String localPath) {
         boolean flag = false;
         OutputStream os = null;
         try {
             System.out.println("开始下载文件");
             initFtpClient();
             //切换FTP目录
-            ftpClient.changeWorkingDirectory(pathname);
+            ftpClient.changeWorkingDirectory(pathName);
             FTPFile[] ftpFiles = ftpClient.listFiles();
             for (FTPFile file : ftpFiles) {
-                if (filename.equalsIgnoreCase(file.getName())) {
-                    File localFile = new File(localpath + "/" + file.getName());
+                if (fileName.equalsIgnoreCase(file.getName())) {
+                    File localFile = new File(localPath + "/" + file.getName());
                     os = new FileOutputStream(localFile);
                     ftpClient.retrieveFile(file.getName(), os);
                     os.close();
@@ -306,18 +306,18 @@ public class FtpWholeUtils {
     /**
      * 删除文件
      *
-     * @param pathname FTP服务器保存目录
-     * @param filename 要删除的文件名称
+     * @param pathName FTP服务器保存目录
+     * @param fileName 要删除的文件名称
      * @return
      */
-    public boolean deleteFile(String pathname, String filename) {
+    public boolean deleteFile(String pathName, String fileName) {
         boolean flag = false;
         try {
             System.out.println("开始删除文件");
             initFtpClient();
             //切换FTP目录
-            ftpClient.changeWorkingDirectory(pathname);
-            ftpClient.dele(filename);
+            ftpClient.changeWorkingDirectory(pathName);
+            ftpClient.dele(fileName);
             ftpClient.logout();
             flag = true;
             System.out.println("删除文件成功");
