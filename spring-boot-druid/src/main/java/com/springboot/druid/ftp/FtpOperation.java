@@ -21,7 +21,7 @@ import java.util.Date;
  * @Description: 文件上传下载工具类
  */
 @Slf4j
-@Component
+//@Component
 public class FtpOperation {
     @Value("${ftp.username}")
     private String userName;

@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
  * 2.可以将链接归还到池中
  * 3.当池中空闲链接不足时，可以创建链接
  */
-@Component
+//@Component
 public class FtpPool {
     FtpClientFactory factory;
     private final GenericObjectPool<FTPClient> internalPool;

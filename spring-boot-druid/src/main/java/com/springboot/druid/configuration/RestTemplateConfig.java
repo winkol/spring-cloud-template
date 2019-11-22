@@ -31,8 +31,11 @@ public class RestTemplateConfig {
     public OkHttpClient okHttpClient() {
         return new OkHttpClient.Builder()
                 .connectionPool(connectionPool())
+                //设置链接超时
                 .connectTimeout(10_000, TimeUnit.MILLISECONDS)
+                // 设置读数据超时
                 .readTimeout(10_000, TimeUnit.MILLISECONDS)
+                // 设置写数据超时
                 .writeTimeout(10_000, TimeUnit.MILLISECONDS)
                 .build();
     }

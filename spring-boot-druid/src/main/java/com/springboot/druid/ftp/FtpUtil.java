@@ -19,7 +19,7 @@ import java.util.UUID;
  * @ClassName: 创建FtpUtil类-FTP工具类
  * @Description: 提供文件上传和下载
  */
-@Component
+//@Component
 public class FtpUtil {
     @Autowired
     FtpConfig config;

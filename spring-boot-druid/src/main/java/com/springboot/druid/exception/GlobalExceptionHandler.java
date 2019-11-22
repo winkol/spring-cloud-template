@@ -1,7 +1,7 @@
 package com.springboot.druid.exception;
 
 import com.springboot.druid.util.ApiCode;
-import com.springboot.druid.util.ResponseDataVO;
+import com.springboot.druid.model.vo.ResponseVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -29,11 +29,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      * @return
      */
     @ExceptionHandler(Exception.class)
-    public ResponseDataVO handleException(Exception ex) {
+    public ResponseVO handleException(Exception ex) {
         log.error(ex.getMessage(), ex);
-        ResponseDataVO responseDataVO = ResponseDataVO.newFailResult(ex.getMessage());
-        exceptionHandler(request, responseDataVO, ex);
-        return responseDataVO;
+        ResponseVO responseVO = ResponseVO.newFailResult(ex.getMessage());
+        exceptionHandler(request, responseVO, ex);
+        return responseVO;
     }
 
     /**
@@ -43,13 +43,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      * @return
      */
     @ExceptionHandler(ParamIncorrectException.class)
-    public ResponseDataVO paramExceptionHandler(ParamIncorrectException ex) {
+    public ResponseVO paramExceptionHandler(ParamIncorrectException ex) {
         log.error("{}", ex.getMessage(), ex);
         ApiCode apiCode = ex.getApiCode();
-        ResponseDataVO responseDataVO = ResponseDataVO.newResult(
+        ResponseVO responseVO = ResponseVO.newResult(
                 apiCode.getCode(), apiCode.getMessage() + ":" + ex.getMessage());
-        exceptionHandler(request, responseDataVO, ex);
-        return responseDataVO;
+        exceptionHandler(request, responseVO, ex);
+        return responseVO;
     }
 
     /**
@@ -59,13 +59,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      * @return
      */
     @ExceptionHandler(ServiceException.class)
-    public ResponseDataVO serviceExceptionHandler(ServiceException ex) {
+    public ResponseVO serviceExceptionHandler(ServiceException ex) {
         log.error(ex.getMessage(), ex);
         ApiCode apiCode = ex.getApiCode();
-        ResponseDataVO responseDataVO = ResponseDataVO.newResult(
+        ResponseVO responseVO = ResponseVO.newResult(
                 apiCode.getCode(), apiCode.getMessage() + ":" + ex.getMessage());
-        exceptionHandler(request, responseDataVO, ex);
-        return responseDataVO;
+        exceptionHandler(request, responseVO, ex);
+        return responseVO;
 
     }
 
@@ -76,12 +76,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      * @return
      */
     @ExceptionHandler(InnerException.class)
-    public ResponseDataVO innerExceptionHandler(InnerException ex) {
+    public ResponseVO innerExceptionHandler(InnerException ex) {
         log.error(ex.getMessage(), ex);
-        ResponseDataVO responseDataVO = ResponseDataVO.newFailResult(
+        ResponseVO responseVO = ResponseVO.newFailResult(
                 StringUtils.isEmpty(ex.getMessage()) ? "系统存在错误，请联系管理员" : ex.getMessage());
-        exceptionHandler(request, responseDataVO, ex);
-        return responseDataVO;
+        exceptionHandler(request, responseVO, ex);
+        return responseVO;
     }
 
     /**
@@ -91,21 +91,21 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      * @return
      */
     @ExceptionHandler(RuntimeException.class)
-    public ResponseDataVO runtimeExceptionHandler(RuntimeException ex) {
+    public ResponseVO runtimeExceptionHandler(RuntimeException ex) {
         log.error(ex.getMessage(), ex);
-        ResponseDataVO responseDataVO = ResponseDataVO.newFailResult("系统后台异常，请联系管理员");
-        exceptionHandler(request, responseDataVO, ex);
-        return responseDataVO;
+        ResponseVO responseVO = ResponseVO.newFailResult("系统后台异常，请联系管理员");
+        exceptionHandler(request, responseVO, ex);
+        return responseVO;
     }
 
     /**
      * 异常时需要处理的业务逻辑
      *
      * @param request
-     * @param responseDataVO
+     * @param responseVO
      * @param ex
      */
-    private void exceptionHandler(HttpServletRequest request, ResponseDataVO responseDataVO, Exception ex) {
+    private void exceptionHandler(HttpServletRequest request, ResponseVO responseVO, Exception ex) {
         log.info("->> exceptionHandler");
         // 获取存入可能存在的数据
 //        request.getAttribute("");

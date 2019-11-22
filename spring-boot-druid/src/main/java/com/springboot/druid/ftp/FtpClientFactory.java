@@ -16,7 +16,7 @@ import java.io.IOException;
  * @ClassName: FtpClientFactory.class
  * @Description: 创建FtpClientFactory工厂类
  */
-@Component
+//@Component
 public class FtpClientFactory implements PooledObjectFactory<FTPClient> {
     @Autowired
     FtpConfig config;
