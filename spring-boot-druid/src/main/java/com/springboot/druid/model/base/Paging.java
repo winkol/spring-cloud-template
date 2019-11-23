@@ -3,79 +3,78 @@ package com.springboot.druid.model.base;
 import java.io.Serializable;
 
 /**
- * 分页
- *
- * @author sunshun
- * @date 2018/12/30
+ * @Author: Dong.L
+ * @Date: 2019/11/23 9:40
+ * @Description: 分页
  */
 public class Paging implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private long total = 0;
+    private long total = 0;
 
-	private int page = 1;
+    private int page = 1;
 
-	private int pageSize = 20;
+    private int pageSize = 20;
 
-	private int pages = 0;
+    private int pages = 0;
 
-	public Paging() {
-		this(1, 20);
-	}
+    public Paging() {
+        this(1, 20);
+    }
 
-	public Paging(int page, int pageSize) {
-		this.page = page;
-		this.pageSize = pageSize;
-	}
+    public Paging(int page, int pageSize) {
+        this.page = page;
+        this.pageSize = pageSize;
+    }
 
-	private void calculatePages() {
-		total = total > 0 ? total : 0;
-		pageSize = pageSize > 0 ? pageSize : 20;
-		pages = Long.valueOf(total / pageSize + (total % pageSize == 0 ? 0 : 1)).intValue();
-		page = pages >= 1 ? Math.min(Math.max(page, 1), pages) : 1;
-	}
+    private void calculatePages() {
+        total = total > 0 ? total : 0;
+        pageSize = pageSize > 0 ? pageSize : 20;
+        pages = Long.valueOf(total / pageSize + (total % pageSize == 0 ? 0 : 1)).intValue();
+        page = pages >= 1 ? Math.min(Math.max(page, 1), pages) : 1;
+    }
 
-	public long getTotal() {
-		return total;
-	}
+    public long getTotal() {
+        return total;
+    }
 
-	public void setTotal(long total) {
-		this.total = total;
-		calculatePages();
-	}
+    public void setTotal(long total) {
+        this.total = total;
+        calculatePages();
+    }
 
-	public int getPage() {
-		return page;
-	}
+    public int getPage() {
+        return page;
+    }
 
-	public void setPage(int page) {
-		this.page = page;
-	}
+    public void setPage(int page) {
+        this.page = page;
+    }
 
-	public int getPageSize() {
-		return pageSize;
-	}
+    public int getPageSize() {
+        return pageSize;
+    }
 
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
-	}
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
 
-	public int getPages() {
-		return pages;
-	}
+    public int getPages() {
+        return pages;
+    }
 
-	public void setPages(int pages) {
-		this.pages = pages;
-	}
+    public void setPages(int pages) {
+        this.pages = pages;
+    }
 
-	public int getStart() {
-		return Math.max((page - 1) * pageSize, 0);
-	}
+    public int getStart() {
+        return Math.max((page - 1) * pageSize, 0);
+    }
 
-	@Override
-	public String toString() {
-		return "[page=" + page + ", pageSize=" + pageSize + "]";
-	}
+    @Override
+    public String toString() {
+        return "[page=" + page + ", pageSize=" + pageSize + "]";
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.springboot.druid.controller;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.springboot.druid.annotation.ControllerLogs;
 import com.springboot.druid.dao.UserJpaDao;
@@ -86,7 +87,7 @@ public class UserController {
     @ControllerLogs
     @ResponseBody
     @RequestMapping(value = "/testPage", method = RequestMethod.POST)
-    public List<User> pageUser(@RequestBody Query query) {
+    public ResponseVO pageUser(@RequestBody Query query) {
         log.info("->> testPage");
         Paging page = query.getPage();
         if (page == null) {
@@ -94,8 +95,20 @@ public class UserController {
         }
         PageHelper.startPage(page.getPage(), page.getPageSize());
         List<User> users = userMapper.pageAll(query.getCondition(), query.getOrderByClause());
+        Page list = (Page) users;
+        page.setPage(list.getPageNum());
+        page.setPageSize(list.getPageSize());
+        page.setTotal(list.getTotal());
         log.info("->> users: {}", users);
-        return users;
+        Paging finalPage = page;
+        return ResponseVO.newResult(ApiCode.OK, new HashMap<String, Object>(4) {
+            private static final long serialVersionUID = -7465514010831408908L;
+
+            {
+                put("page", finalPage);
+                put("users", users);
+            }
+        });
     }
 
     /**

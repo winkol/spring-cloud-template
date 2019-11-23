@@ -6,10 +6,9 @@ import org.springframework.util.StringUtils;
 import java.util.Map;
 
 /**
- * 查询条件
- *
- * @author sunshun
- * @date 2018/12/30
+ * @Author: Dong.L
+ * @Date: 2019/11/23 9:40
+ * @Description: 查询条件
  */
 public class Query {
 
@@ -20,9 +19,10 @@ public class Query {
 
     public String getOrderByClause() {
         StringBuffer sb = new StringBuffer(" ");
-        if(!StringUtils.isEmpty(orderColumn)){
+        if (!StringUtils.isEmpty(orderColumn)) {
             sb.append(" order by ");
-            if(!StringUtils.isEmpty(orderColumn)) {//展示排序字段
+            //展示排序字段
+            if (!StringUtils.isEmpty(orderColumn)) {
                 String orderColumnUnder = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, orderColumn);
                 sb.append(orderColumnUnder);
                 if ("desc".equalsIgnoreCase(orderType)) {
@@ -32,7 +32,7 @@ public class Query {
                 }
             }
         }
-        return  sb.toString();
+        return sb.toString();
     }
 
     public Map<String, Object> getCondition() {
