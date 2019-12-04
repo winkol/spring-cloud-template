@@ -1,0 +1,17 @@
+server:
+  port: 7014
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Hongkong
+    username: root
+    password: root
+    #\u9A7C\u5CF0\u547D\u540D
+    map-underscore-to-camel-case: true
+    #\u5F00\u542F\u5217\u6807\u7B7E\u4EE3\u66FF\u5217\u540D
+    use-column-label: true
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: com.springboot.ocr.log.entity

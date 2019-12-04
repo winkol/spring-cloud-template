@@ -105,6 +105,10 @@
         Java给图片和PDF文件添加水印(图片水印和文字水印)：https://www.cnblogs.com/qlqwjy/p/9326468.html
         java添加多个水印：https://www.cnblogs.com/SimonHu1993/p/9399752.html
     9、...
+    
+# spring-boot-ocr:7014
+    1、图片提取
+    2、图片/文字合识别
 
 # 项目插件
     1、阿里巴巴Java开发规约IDEA插件安装及使用
