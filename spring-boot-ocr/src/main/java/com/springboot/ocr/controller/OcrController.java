@@ -18,17 +18,20 @@ import java.util.Map;
  */
 @RestController
 public class OcrController {
-
-    @PostMapping(value = "/ocr")
-    public Map<Object, Object> ocr(MultipartFile file) throws Exception {
-        AipOcr client = new AipOcr("17247027", "1OBVubcETaoDCUxRCfeQeDjN", "G4hsARotv6iweCuDvozOeHaoNqXGOTRG");
-        // 传入可选参数调用接口
-        HashMap<String, String> options = new HashMap<String, String>(4);
+    AipOcr client = new AipOcr("17247027", "1OBVubcETaoDCUxRCfeQeDjN", "G4hsARotv6iweCuDvozOeHaoNqXGOTRG");
+    /**
+     * 传入可选参数调用接口
+     */
+    static HashMap<String, String> options = new HashMap<String, String>(4);
+    static {
         options.put("language_type", "CHN_ENG");
         options.put("detect_direction", "true");
         options.put("detect_language", "true");
         options.put("probability", "true");
+    }
 
+    @PostMapping(value = "/ocr")
+    public Map<Object, Object> ocr(MultipartFile file) throws Exception {
         // 参数为二进制数组
         byte[] buf = file.getBytes();
         JSONObject res = client.basicGeneral(buf, options);
@@ -39,14 +42,6 @@ public class OcrController {
 
     @PostMapping(value = "/ocrStr")
     public String ocr1(MultipartFile file) throws Exception {
-        AipOcr client = new AipOcr("17247027", "1OBVubcETaoDCUxRCfeQeDjN", "G4hsARotv6iweCuDvozOeHaoNqXGOTRG");
-        // 传入可选参数调用接口
-        HashMap<String, String> options = new HashMap<String, String>(4);
-        options.put("language_type", "CHN_ENG");
-        options.put("detect_direction", "true");
-        options.put("detect_language", "true");
-        options.put("probability", "true");
-
         String str = "";
         String existsStr = "";
         // 参数为二进制数组
