@@ -44,6 +44,10 @@
     网关
 # spring-boot-rabbitmq:7013
     mq
+    Springboot 整合RabbitMq ，用心看完这一篇就够了
+    https://blog.csdn.net/qq_35387940/article/details/100514134
+    SpringBoot整合RabbitMQ之 典型应用场景实战一
+    https://blog.csdn.net/u013871100/article/details/82982235
 # spring-boot-timing:7008
     定时任务
 # spring-cloud-feign:7004
@@ -118,3 +122,9 @@
         https://www.jianshu.com/p/e6c264134602
     3、IDEA安装Sonarlint 代码扫描插件
         https://blog.csdn.net/weixin_42343424/article/details/84979830
+    4、nginx 配置访问图片路径和静态页面
+        https://www.jianshu.com/p/8e2df1ac3d83
+    5、Java远程连接操作linux服务器，scp获取文件
+        https://www.iteye.com/blog/aoyouzi-2091997
+        java使用Jsch实现远程操作linux服务器进行文件上传、下载，删除和显示目录信息
+        https://www.cnblogs.com/biehongli/p/9780652.html
