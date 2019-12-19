@@ -113,6 +113,18 @@
 # spring-boot-ocr:7014
     1、图片提取
     2、图片/文字合识别
+    
+# spring-boot-encrypt:7015
+    1、Java 实现对称加密
+        DES（Data Encryption Standard）数据加密标准
+          1 JDK 的 DES 实现、2 Bouncy Castle 的 DES 实现
+        3DES（Triple DES）三重数据加密算法
+          1 JDK 的 3DES 实现、2 Bouncy Castle 的 3DES 实现
+        AES（Advanced Encryption Standard）高级加密标准
+          1 JDK 的 AES 实现、2 Bouncy Castle 的 AES 实现
+        PBE（Password Based Encryption）基于口令加密
+          1 JDK 的 PBE 实现、2 Bouncy Castle 的 PBE 实现
+        ......
 
 # 项目插件
     1、阿里巴巴Java开发规约IDEA插件安装及使用
