@@ -126,6 +126,16 @@
           1 JDK 的 PBE 实现、2 Bouncy Castle 的 PBE 实现
         ......
 
+# spring-boot-sentinel:7016
+    Sentinel 以流量为切入点，从流量控制、熔断降级、系统负载保护等多个维度保护服务的稳定性
+    本地启动：java -Dserver.port=8080 -jar sentinel-dashboard-1.7.0.jar
+    
+    本地访问sentinel控制台：http://10.10.2.139:8080,用户和密码都是sentinel
+    Springboot2（49）集成sentinel：
+        https://blog.csdn.net/cowbin2012/article/details/90769370
+    springBoot整合Sentinel实现降级限流熔断
+        https://www.cnblogs.com/zjting/p/11406472.html
+
 # 项目插件
     1、阿里巴巴Java开发规约IDEA插件安装及使用
         alibaba即可看到Alibaba Java Code Guidelines插件
