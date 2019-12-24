@@ -34,32 +34,44 @@
 
 # cloud-config-client:7003
     测试config动态刷新
+
 # cloud-config-client2:7003
     测试config动态刷新
+
 # cloud-config-server:7001
     config配置中心
+
 # cloud-eureka:9000
     注册中心
+
 # cloud-zuul:80
     网关
+
 # spring-boot-rabbitmq:7013
     mq
     Springboot 整合RabbitMq ，用心看完这一篇就够了
     https://blog.csdn.net/qq_35387940/article/details/100514134
     SpringBoot整合RabbitMQ之 典型应用场景实战一
     https://blog.csdn.net/u013871100/article/details/82982235
+
 # spring-boot-timing:7008
     定时任务
+
 # spring-cloud-feign:7004
     feign服务调用
+
 # spring-cloud-hystrix:7005
     熔断（仪表盘）
+
 # spring-cloud-hystrix-client:7006
     熔断使用
+
 # spring-cloud-turebine:7007
     集群监控
+
 # spring-cloud-zipkin:7012
     链路追踪
+
 # spring-boot-junit5:7009
     单元测试
     1、请求参数校验
@@ -68,6 +80,7 @@
     4、springboot之多任务并行+线程池处理
     5、普通类获取bean工具类（SpringContextUtil）
     6、...
+
 # spring-boot-threadqueue:7010
     ThreadPoolExecutor线程池+Queue缓冲队列实现高并发中进行下单业务
     1、Java并发编程：线程池的使用
@@ -82,6 +95,7 @@
     https://blog.csdn.net/xsh5324/article/details/84595717
     架构师入门笔记八 并发框架Disruptor场景应用
     https://blog.csdn.net/xsh5324/article/details/84595717
+
 # spring-boot-apollo:7011
     阿波罗  远程配置管理工程  
     服务启动：E:\ld_work\workspaces\ideaIU\apollo\apollo-build-scripts
@@ -90,8 +104,10 @@
     springboot-监听apollo配置
     https://blog.csdn.net/qq_31289187/article/details/84346529
     https://blog.csdn.net/fenglongmiao/article/details/81460213
+
 # spring-boot-mybatis:7012
     springboot+mybatis框架  (springboot+jpa)
+
 # spring-boot-druid:7013
     springboot+druid框架
     1、集成jpa/mybatis
@@ -135,6 +151,11 @@
         https://blog.csdn.net/cowbin2012/article/details/90769370
     springBoot整合Sentinel实现降级限流熔断
         https://www.cnblogs.com/zjting/p/11406472.html
+        
+# spring-boot-sentinel:7017
+     Spring Boot 2.1.5 使用sharding-sphere + Mybatis-Plus 实现分库分表
+        https://blog.csdn.net/qq_34936541/article/details/93816813
+     
 
 # 项目插件
     1、阿里巴巴Java开发规约IDEA插件安装及使用
