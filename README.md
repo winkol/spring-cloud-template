@@ -155,6 +155,7 @@
 # spring-boot-sentinel:7017
      Spring Boot 2.1.5 使用sharding-sphere + Mybatis-Plus 实现分库分表
         https://blog.csdn.net/qq_34936541/article/details/93816813
+     生成主键ID,唯一键id,分布式ID生成器雪花算法代码实现(SnowflakeIdWorker)
      
 
 # 项目插件
