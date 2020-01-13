@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="application.name" value="utils" />
+    <property name="log.dir" value="logs" />
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d [%thread] %-5level %logger{36} %line - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${log.dir}/${application.name}.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${log.dir}/${application.name}.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <!--只保留最近60天日志-->
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d{yyyy-MM-dd'T'HH:mm:ss.SSS} [%p] [%c:%L] -- %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--mybatis 日志打印-->
+    <logger name="com.dongl.utils.mapper" level="DEBUG" />
+
+    <root level="info">
+        <!--是否打印日志到控制台-->
+        <appender-ref ref="console" />
+        <appender-ref ref="file" />
+    </root>
+</configuration>

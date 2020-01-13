@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dongl.utils.mapper.BaseMapper">
+
+    <resultMap id="BaseResultMap" type="com.dongl.utils.model.entity.BaseEntity">
+        <result column="id" property="id" />
+        <result column="enabled" property="enabled" />
+        <result column="created_by" property="createdBy" />
+        <result column="update_by" property="updateBy" />
+        <result column="created_time" property="createdTime" />
+        <result column="updated_time" property="updatedTime" />
+    </resultMap>
+
+    <sql id="base_column">
+        id,enabled,created_by,update_by,created_time,updated_time
+    </sql>
+</mapper>
