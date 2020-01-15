@@ -35,8 +35,8 @@ public class SnowflakeKeyGeneratorUtilsTest {
     @Test
     public void test() {
         SnowflakeKeyGeneratorUtils snowflakeKeyGeneratorUtils = new SnowflakeKeyGeneratorUtils();
-        snowflakeKeyGeneratorUtils.setWorkerId(WORKER_ID);
-        for (int i = 0; i < 100; i++) {
+        SnowflakeKeyGeneratorUtils.setWorkerId(WORKER_ID);
+        for (int i = 0; i < 10; i++) {
             System.out.println("key: " + snowflakeKeyGeneratorUtils.generateKey());
         }
     }
