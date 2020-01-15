@@ -4,9 +4,9 @@
  * RIGHTS RESERVED.
  * **************************************************************
  * PROJECT INFORMATION:
- * 项目名称：spring-cloud-template
+ * 项目名称：utils
  * 文件名称：EcDsaUtils.java
- * 代码说明：TODO
+ * 代码说明：ECDSA非对称加解密
  * **************************************************************
  * CHANGE HISTORY:
  * Author Date Version Reason
@@ -25,7 +25,7 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
 /**
- * @Description: TODO
+ * @Description: ECDSA非对称加解密
  * @Project: com.dongl.utils.util
  * @CreateDate: Created in 2020/1/15 15:41
  * @Author: Dong.L
@@ -39,11 +39,11 @@ public class EcDsaUtils {
 
     public static void main(String[] args) throws Exception {
 //        加签验签
-//        KeyPair keyPair = getKeyPair();
-//        PrivateKey privateKey = keyPair.getPrivate();
-//        PublicKey publicKey = keyPair.getPublic();
-//        String sign = signECDSA(privateKey, data);
-//        verifyECDSA(publicKey,sign,data);
+        KeyPair keyPair = getKeyPair();
+        PrivateKey privateKey = keyPair.getPrivate();
+        PublicKey publicKey = keyPair.getPublic();
+        String sign = signECDSA(privateKey, data);
+        verifyECDSA(publicKey, sign, data);
 
 //        生成公钥私钥1
         KeyPair keyPair1 = getKeyPair();
@@ -70,7 +70,16 @@ public class EcDsaUtils {
 
     }
 
-    //加签
+    /**
+     * @param privateKey 私钥
+     * @param message    内容
+     * @method: signECDSA
+     * @description: 私钥加签
+     * @return: String
+     * @throws:
+     * @author: Dong.L
+     * @date: 2020/1/15 17:37
+     */
     public static String signECDSA(PrivateKey privateKey, String message) {
         String result = "";
         try {
@@ -86,7 +95,17 @@ public class EcDsaUtils {
         return result;
     }
 
-    //验签
+    /**
+     * @param publicKey 公钥
+     * @param signed    签名
+     * @param message   内容
+     * @method: verifyECDSA
+     * @description: 公钥验签
+     * @return: boolean
+     * @throws:
+     * @author: Dong.L
+     * @date: 2020/1/15 17:36
+     */
     public static boolean verifyECDSA(PublicKey publicKey, String signed, String message) {
         try {
             //验证签名
@@ -105,7 +124,13 @@ public class EcDsaUtils {
     }
 
     /**
-     * 从string转private key
+     * @param key
+     * @method: getPrivateKey
+     * @description: 从string转private key
+     * @return:
+     * @throws: Exception
+     * @author: Dong.L
+     * @date: 2020/1/15 17:35
      */
     public static PrivateKey getPrivateKey(String key) throws Exception {
         byte[] bytes = DatatypeConverter.parseHexBinary(key);
@@ -116,7 +141,13 @@ public class EcDsaUtils {
     }
 
     /**
-     * 从string转public key
+     * @param key
+     * @method: getPublicKey
+     * @description: 从string转public key
+     * @return:
+     * @throws: Exception
+     * @author: Dong.L
+     * @date: 2020/1/15 17:35
      */
     public static PublicKey getPublicKey(String key) throws Exception {
         byte[] bytes = DatatypeConverter.parseHexBinary(key);
@@ -128,11 +159,14 @@ public class EcDsaUtils {
 
 
     /**
-     * 生成 share key
-     *
      * @param publicStr  公钥字符串
      * @param privateStr 私钥字符串
-     * @return
+     * @method: genSharedKey
+     * @description: 生成 share key
+     * @return:
+     * @throws:
+     * @author: Dong.L
+     * @date: 2020/1/15 17:34
      */
     public static String genSharedKey(String publicStr, String privateStr) {
         try {
@@ -144,11 +178,14 @@ public class EcDsaUtils {
     }
 
     /**
-     * 生成 share key
-     *
      * @param publicKey  公钥
      * @param privateKey 私钥
-     * @return
+     * @method: genSharedKey
+     * @description: 生成 share key
+     * @return:
+     * @throws:
+     * @author: Dong.L
+     * @date: 2020/1/15 17:34
      */
     public static String genSharedKey(PublicKey publicKey, PrivateKey privateKey) {
         String sharedKey = "";
@@ -163,7 +200,15 @@ public class EcDsaUtils {
         return sharedKey;
     }
 
-    //生成KeyPair
+    /**
+     * @param
+     * @method: getKeyPair
+     * @description: 生成KeyPair
+     * @return:
+     * @throws: Exception
+     * @author: Dong.L
+     * @date: 2020/1/15 17:34
+     */
     public static KeyPair getKeyPair() throws Exception {
         KeyPairGenerator keyGen = KeyPairGenerator.getInstance("EC");
         SecureRandom random = SecureRandom.getInstance("SHA1PRNG");

@@ -45,7 +45,7 @@ public class EcDsaUtilsTest {
         //        加签验签
         String sign = EcDsaUtils.signECDSA(privateKey1, data);
         System.out.println("sign: " + sign);
-        EcDsaUtils.verifyECDSA(publicKey1,sign,data);
+        EcDsaUtils.verifyECDSA(publicKey1, sign, data);
 
         System.out.println("\n\n");
 
