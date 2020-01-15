@@ -16,8 +16,10 @@
  */
 package com.dongl.utils;
 
-import com.dongl.utils.service.GenerateKeyPairService;
+import com.dongl.utils.util.SignatureDataUtils;
 import org.junit.Test;
+
+import java.util.Map;
 
 /**
  * @Description: TODO
@@ -27,9 +29,27 @@ import org.junit.Test;
  **/
 public class SignatureDataUtilsTest {
 
+    /**
+     * 私key
+     */
+    private static String priKey = "pri_key";
+    /**
+     * 公key
+     */
+    private static String pubKey = "pub_key";
+    private static String data = "{'name':'Dong.L', 'phone':'18566762652', 'content':'这是测试'}";
+
     @Test
-    public void test() {
-        GenerateKeyPairService.run("abckey");
+    public void test() throws Exception {
+        Map<String, String> keyMap = SignatureDataUtils.getKeyPair("Dong.L");
+        String sign = SignatureDataUtils.getSignPri(keyMap.get(priKey), data);
+        System.out.println("公钥签名验证：" + SignatureDataUtils.verifySign(data, sign, keyMap.get(pubKey)));
+        byte[] encryptPub = SignatureDataUtils.encryptByPublicKey(data.getBytes(), keyMap.get(pubKey));
+        String encryptStr = SignatureDataUtils.bytesToHexStr(encryptPub);
+        System.out.println("公钥加密：" + encryptStr);
+        byte[] decryptPub = SignatureDataUtils.encryptByPrivateKey(encryptPub, keyMap.get(priKey));
+        String decryptStr = SignatureDataUtils.bytesToHexStr(decryptPub);
+        System.out.println("私钥加密：" + decryptStr);
     }
 
 }

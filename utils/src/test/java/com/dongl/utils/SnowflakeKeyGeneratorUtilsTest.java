@@ -30,7 +30,7 @@ public class SnowflakeKeyGeneratorUtilsTest {
      * workId默认从机器的IP地址生成，故如果对ID的唯一性有很高要求，
      * 如果同一台机器上运行多个服务，建议用户自己配置workId。
      */
-    private final static long WORKER_ID = 127L;
+    private static final long WORKER_ID = 127L;
 
     @Test
     public void test() {

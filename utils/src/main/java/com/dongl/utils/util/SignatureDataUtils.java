@@ -16,31 +16,136 @@
  */
 package com.dongl.utils.util;
 
-import java.security.KeyFactory;
-import java.security.PrivateKey;
-import java.security.Signature;
+import javax.crypto.Cipher;
+import java.io.ByteArrayOutputStream;
+import java.security.*;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * @Description: 编写发送者的功能：首先通过私钥加密待输出数据Data，并输出Data和签名后的Data
+ * @Description: 数字签名-编写发送者的功能：首先通过私钥加密待输出数据Data，并输出Data和签名后的Data
  * @Project: com.dongl.utils.util
  * @CreateDate: Created in 2020/1/13 15:46
  * @Author: Dong.L
  **/
 public class SignatureDataUtils {
-    public static String run(String prikeyvalue) {
+    /**
+     * 私key
+     */
+    private static String priKey = "pri_key";
+    /**
+     * 公key
+     */
+    private static String pubKey = "pub_key";
+    /**
+     * 加密算法RSA
+     */
+    public static final String KEY_ALGORITHM = "RSA";
+    /**
+     * 签名算法
+     */
+    public static final String SIGNATURE_ALGORITHM = "MD5withRSA";
+    /**
+     * RSA最大加密明文大小
+     */
+    public static final int MAX_ENCRYPT_BLOCK = 117;
+    /**
+     * RSA最大解密密文大小
+     */
+    public static final int MAX_DECRYPT_BLOCK = 117;
+
+    /**
+     * @param seedValue 随机参数
+     * @method: getKeyPair
+     * @description: 生成公私钥对
+     * @return: Map
+     * @throws:
+     * @author: Dong.L
+     * @date: 2020/1/13 16:12
+     */
+    public static Map<String, String> getKeyPair(String seedValue) {
+        Map<String, String> keyMap = new HashMap<>(2);
         try {
-            // 这是GenerateKeyPair输出的私钥编码
-            // String prikeyvalue =
-            // "30820278020100300d06092a864886f70d0101010500048202623082025e020100028181009471a0dd33eda4d5ab55966c99ec49d782508de7178ecd72e2f680fc1d9c14015f842489009a9f5ec158d228e881a793bdd429696b7344f286a64e1645857d5c8df2c6fb6e99325d9c8ac2d58cd21685806cb2adf4adc446169ca426d5bc290fc77681804b7e5b5d334bca44a85ea2fc46919c8d6cd11c5c059b7967fe03d3a1020301000102818100898754d05c01fa4b73b791ec001768ba5fa39e34d2209dbba90754ad400990874d25326c33c10d924e73aa11f887d6e80c617a148f5676347407b424f23820d1a8b467b0e47ef678c0b4c7a4f656913c3450996670e0430b5ae056abeb4cb775062b3400a0d3da94b5680919b0e8e46ffc4d9dbc4164a6bd58bf5152828f1899024100df2520bcd7bbf8f5af5314066f74a2a0f9c8502808036284ea7e7a31ae3028df4c11090a9293cb89ec83d97c26aefd61caa8a29c1db74033ff5d6f596a4b2a7b024100aa4cd580b509364dd4ecf85743c4af2b5c3717e89dcd73e0a2510140d3c2766be82a4ed465e9f2e0edbb418cd6b532bbb68d031bf4978b7319b5c33784579d93024100cfd713211187c1a184c5cad71ba4f57d1e6a574e91f825214c10b5dbe434733d58ea5d137de72f23ae2a38be0c81dcfbe2f9234c69d92f71bf1ed601e0a1565502410095b995a0620a265f498bca4f56ba8ed38d70b6a9824bc6cc4188fc9415598c2a14e5558731cefd05ba9d7ee5274409c5b59ac6980674525b30c87848d02703d702400c54e66a101041e6e56e8afbae7769645aa1445dd1565cb2e470f420e59bfad42e124a9f3d2bdafb668ce7f13c5d590ee13aeb56f9dcaa1f62b394b5801d2832";
+            KeyPairGenerator keygen = KeyPairGenerator.getInstance(KEY_ALGORITHM);
+            SecureRandom secrand = new SecureRandom();
+            // 初始化随机产生器
+            secrand.setSeed(seedValue.getBytes());
+            keygen.initialize(1024, secrand);
+            KeyPair keys = keygen.genKeyPair();
+
+            PublicKey pubkey = keys.getPublic();
+            PrivateKey prikey = keys.getPrivate();
+
+            keyMap.put(pubKey, bytesToHexStr(pubkey.getEncoded()));
+            keyMap.put(priKey, bytesToHexStr(prikey.getEncoded()));
+
+            System.out.println("pubKey=" + keyMap.get(pubKey));
+            System.out.println("priKey=" + keyMap.get(priKey));
+
+            System.out.println("写入对象 pubkeys ok");
+            System.out.println("生成密钥对成功");
+            return keyMap;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("生成密钥对失败");
+        }
+        return null;
+    }
+
+    /**
+     * @param data   要验证的信息
+     * @param signed 签名
+     * @param pubKey 公钥
+     * @method: verifySign
+     * @description: 验证签名
+     * @return:
+     * @throws:
+     * @author: Dong.L
+     * @date: 2020/1/15 16:12
+     */
+    public static boolean verifySign(String data, String signed, String pubKey) {
+        try {
+            if (signed.length() != 256) {
+                return false;
+            }
+            X509EncodedKeySpec bobPubKeySpec = new X509EncodedKeySpec(hexStrToBytes(pubKey));
+            KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
+            PublicKey publicKey = keyFactory.generatePublic(bobPubKeySpec);
+            Signature signature = Signature.getInstance(SIGNATURE_ALGORITHM);
+            // 用公钥校验签名是否正常
+            signature.initVerify(publicKey);
+            signature.update(data.getBytes("ISO-8859-1"));
+            if (signature.verify(hexStrToBytes(signed))) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * @param prikeyvalue 私钥
+     * @param myinfo      要签名的信息
+     * @method: getSignPri
+     * @description: 私钥生成签名
+     * @return:
+     * @throws:
+     * @author: Dong.L
+     * @date: 2020/1/15 16:07
+     */
+    public static String getSignPri(String prikeyvalue, String myinfo) {
+        try {
             PKCS8EncodedKeySpec priPKCS8 = new PKCS8EncodedKeySpec(hexStrToBytes(prikeyvalue));
-            KeyFactory keyf = KeyFactory.getInstance("RSA");
+            KeyFactory keyf = KeyFactory.getInstance(KEY_ALGORITHM);
             PrivateKey myprikey = keyf.generatePrivate(priPKCS8);
 
-            // 要签名的信息
-            String myinfo = "orderId=10dkfadsfksdkssdkd&amount=80&orderTime=20060509";
             // 用私钥对信息生成数字签名
-            Signature signet = Signature.getInstance("MD5withRSA");
+            Signature signet = Signature.getInstance(SIGNATURE_ALGORITHM);
             signet.initSign(myprikey);
             signet.update(myinfo.getBytes("ISO-8859-1"));
             // 对信息的数字签名
@@ -57,6 +162,83 @@ public class SignatureDataUtils {
             System.out.println("签名并生成文件失败");
         }
         return null;
+    }
+
+    /**
+     * @param data   源数据
+     * @param pubKey 公钥
+     * @method: encryptByPublicKey
+     * @description: 公钥加密
+     * @return:
+     * @throws: Exception
+     * @author: Dong.L
+     * @date: 2020/1/15 16:37
+     */
+    public static byte[] encryptByPublicKey(byte[] data, String pubKey) throws Exception {
+        byte[] keyBytes = hexStrToBytes(pubKey);
+        X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(keyBytes);
+        KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
+        Key publicK = keyFactory.generatePublic(x509KeySpec);
+        // 对数据加密
+        Cipher cipher = Cipher.getInstance(keyFactory.getAlgorithm());
+        cipher.init(Cipher.ENCRYPT_MODE, publicK);
+        int inputLen = data.length;
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        int offSet = 0;
+        byte[] cache;
+        int i = 0;
+        // 对数据分段加密
+        while (inputLen - offSet > 0) {
+            if (inputLen - offSet > MAX_ENCRYPT_BLOCK) {
+                cache = cipher.doFinal(data, offSet, MAX_ENCRYPT_BLOCK);
+            } else {
+                cache = cipher.doFinal(data, offSet, inputLen - offSet);
+            }
+            out.write(cache, 0, cache.length);
+            i++;
+            offSet = i * MAX_ENCRYPT_BLOCK;
+        }
+        byte[] encryptedData = out.toByteArray();
+        out.close();
+        return encryptedData;
+    }
+
+    /**
+     * @param data   已加密数据
+     * @param priKey 私钥
+     * @method: encryptByPrivateKey
+     * @description: 私钥加密
+     * @return:
+     * @throws: Exception
+     * @author: Dong.L
+     * @date: 2020/1/15 16:36
+     */
+    public static byte[] encryptByPrivateKey(byte[] data, String priKey) throws Exception {
+        byte[] keyBytes = hexStrToBytes(priKey);
+        PKCS8EncodedKeySpec pkcs8KeySpec = new PKCS8EncodedKeySpec(keyBytes);
+        KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
+        Key privateK = keyFactory.generatePrivate(pkcs8KeySpec);
+        Cipher cipher = Cipher.getInstance(keyFactory.getAlgorithm());
+        cipher.init(Cipher.ENCRYPT_MODE, privateK);
+        int inputLen = data.length;
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        int offSet = 0;
+        byte[] cache;
+        int i = 0;
+        // 对数据分段解密
+        while (inputLen - offSet > 0) {
+            if (inputLen - offSet > MAX_DECRYPT_BLOCK) {
+                cache = cipher.doFinal(data, offSet, MAX_DECRYPT_BLOCK);
+            } else {
+                cache = cipher.doFinal(data, offSet, inputLen - offSet);
+            }
+            out.write(cache, 0, cache.length);
+            i++;
+            offSet = i * MAX_DECRYPT_BLOCK;
+        }
+        byte[] encryptedData = out.toByteArray();
+        out.close();
+        return encryptedData;
     }
 
     /**
