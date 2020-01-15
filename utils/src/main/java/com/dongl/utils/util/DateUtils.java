@@ -48,6 +48,14 @@ public class DateUtils {
      */
     public static final String yyyy_MM_dd_HH_mm_ss = "yyyy-MM-dd HH:mm:ss";
     /**
+     * 日期格式(yyyy-MM-dd HH:mm:ss:sss)
+     */
+    public static final String yyyy_MM_dd_HH_mm_ss_sss = "yyyy-MM-dd HH:mm:ss:sss";
+    /**
+     * 日期格式(yyyy-MM-dd HH:mm:ss:sss2)
+     */
+    public static final String yyyy_MM_dd_HH_mm_ss_sss2 = "yyyy-MM-dd HH:mm:ss.sss";
+    /**
      * 日期格式(HH:mm:ss)
      */
     public static final String HH_mm_ss = "HH:mm:ss";
