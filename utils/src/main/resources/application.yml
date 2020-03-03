@@ -1,0 +1,56 @@
+server:
+  port: 7013
+
+spring:
+  profiles:
+    active: dev
+
+  datasource:
+    # \u4F7F\u7528\u963F\u91CC\u7684Druid\u8FDE\u63A5\u6C60
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    username: root
+    password: bNVOqb7WKLX5Bjnw+LMv92taj25KOxDimXxILPQjw42wgv+1lHzOH8kr97xDwWdhpY67QuYCS7sWN4W46YbkFA==
+    #    password: root
+    # \u8FDE\u63A5\u6C60\u7684\u914D\u7F6E\u4FE1\u606F
+    # \u4E5F\u53EF\u4EE5\u8003\u8651 sharding \u914D\u7F6E
+    druid:
+      initialSize: 5
+      minIdle: 5
+      maxActive: 100
+      maxWait: 60000
+      # \u914D\u7F6E\u95F4\u9694\u591A\u4E45\u624D\u8FDB\u884C\u4E00\u6B21\u68C0\u6D4B\uFF0C\u68C0\u6D4B\u9700\u8981\u5173\u95ED\u7684\u7A7A\u95F2\u8FDE\u63A5\uFF0C\u5355\u4F4D\u662F\u6BEB\u79D2
+      timeBetweenEvictionRunsMillis: 60000
+      # \u914D\u7F6E\u4E00\u4E2A\u8FDE\u63A5\u5728\u6C60\u4E2D\u6700\u5C0F\u751F\u5B58\u7684\u65F6\u95F4\uFF0C\u5355\u4F4D\u662F\u6BEB\u79D2
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      # \u6253\u5F00PSCache\uFF0C\u5E76\u4E14\u6307\u5B9A\u6BCF\u4E2A\u8FDE\u63A5\u4E0APSCache\u7684\u5927\u5C0F
+      poolPreparedStatements: true
+      maxPoolPreparedStatementPerConnectionSize: 20
+      # \u914D\u7F6E\u76D1\u63A7\u7EDF\u8BA1\u62E6\u622A\u7684filters\uFF0C\u53BB\u6389\u540E\u76D1\u63A7\u754C\u9762sql\u65E0\u6CD5\u7EDF\u8BA1\uFF0C'wall'\u7528\u4E8E\u9632\u706B\u5899
+      filters: config,stat,wall,slf4j
+      # \u901A\u8FC7connectProperties\u5C5E\u6027\u6765\u6253\u5F00mergeSql\u529F\u80FD\uFF1B\u6162SQL\u8BB0\u5F55
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000;config.decrypt=true;
+      webStatFilter:
+        enabled: true
+        urlPattern: "/*"
+        exclusions: "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*"
+      statViewServlet:
+        urlPattern: "/druid/*"
+        allow: 127.0.0.1
+        deny: 192.168.1.73
+        #  \u7981\u7528HTML\u9875\u9762\u4E0A\u7684\u201CReset All\u201D\u529F\u80FD
+        resetEnable: false
+        loginUsername: admin
+        loginPassword: 123456
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
+    #\u914D\u7F6E\u6307\u660E\u5728\u7A0B\u5E8F\u542F\u52A8\u7684\u65F6\u5019\u8981\u5220\u9664\u5E76\u4E14\u521B\u5EFA\u5B9E\u4F53\u7C7B\u5BF9\u5E94\u7684\u8868\u3002\u8FD9\u4E2A\u53C2\u6570\u5F88\u5371\u9669\uFF0C\u56E0\u4E3A\u4ED6\u4F1A\u628A\u5BF9\u5E94\u7684\u8868\u5220\u9664\u6389\u7136\u540E\u91CD\u5EFA\u3002
+    #\u6240\u4EE5\u5343\u4E07\u4E0D\u8981\u5728\u751F\u6210\u73AF\u5883\u4E2D\u4F7F\u7528\u3002\u53EA\u6709\u5728\u6D4B\u8BD5\u73AF\u5883\u4E2D\uFF0C\u4E00\u5F00\u59CB\u521D\u59CB\u5316\u6570\u636E\u5E93\u7ED3\u6784\u7684\u65F6\u5019\u624D\u80FD\u4F7F\u7528\u4E00\u6B21\u3002
+    #    hibernate.ddl-auto: create

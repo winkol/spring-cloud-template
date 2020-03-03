@@ -155,9 +155,21 @@
         https://www.cnblogs.com/zjting/p/11406472.html
         
 # spring-boot-sentinel:7017
-     Spring Boot 2.1.5 使用sharding-sphere + Mybatis-Plus 实现分库分表
+    Spring Boot 2.1.5 使用sharding-sphere + Mybatis-Plus 实现分库分表
         https://blog.csdn.net/qq_34936541/article/details/93816813
-     生成主键ID,唯一键id,分布式ID生成器雪花算法代码实现(SnowflakeIdWorker)
+    生成主键ID,唯一键id,分布式ID生成器雪花算法代码实现(SnowflakeIdWorker)
+        
+# spring-boot-rocketMq:7018
+    本地目录
+        D:\InstallTools\Development\rocketmq\rocketmq-all-4.6.1-bin-release
+    启动指南
+        https://www.jianshu.com/p/4a275e779afa
+    用例
+        https://blog.csdn.net/zhangcongyi420/article/details/82630458
+        https://segmentfault.com/a/1190000018234735
+        https://blog.csdn.net/qq_34021712/article/details/79273641
+        https://blog.csdn.net/lblblblblzdx/article/details/87939187
+        https://www.sohu.com/a/129521820_487514
      
 
 # 项目插件
