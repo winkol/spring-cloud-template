@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: eth-demo
+server:
+  port: 8080
+web3j:
+  client-address: http://192.168.8.110:8545

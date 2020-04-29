@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Author: Dong.L
  **/
 @RestController
-public class DirectSender {
+public class  DirectSender {
     @Autowired
     AmqpTemplate rabbitTemplate;
 
