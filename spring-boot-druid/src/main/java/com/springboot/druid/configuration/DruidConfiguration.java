@@ -1,9 +1,11 @@
 package com.springboot.druid.configuration;
 
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * @Author: Dong.L
@@ -15,4 +17,10 @@ import org.springframework.context.annotation.Import;
 @MapperScan("com.springboot.druid.mapper")
 @Import({/*DataSourceConfig.class,*/})
 public class DruidConfiguration {
+    @Bean("cepRestTemplate")
+    public RestTemplate getRestTemplate() {
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.getInterceptors().add(new LoggingClientHttpRequestInterceptor());
+        return restTemplate;
+    }
 }
