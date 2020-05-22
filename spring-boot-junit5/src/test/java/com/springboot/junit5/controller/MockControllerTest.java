@@ -46,11 +46,27 @@ public class MockControllerTest {
     public void setUp() {
         Mockito.when(restTemplate.postForObject(Mockito.anyString(), Mockito.anyMap(), Mockito.any()))
                 .thenReturn(ImmutableMap.of("status", "200"));
+        Mockito.doNothing().when(restTemplate).setErrorHandler(null);
     }
 
     @Test
     public void testHallo(){
         Map<String, Object> map = mockController.hallo("mock abc.");
         Assert.assertTrue(map.get("status").equals("200"));
+    }
+
+
+    /**
+     * @method: testNotResp
+     * @description: mock无返回参数(void)
+     * @param
+     * @return:
+     * @throws:
+     * @author: Dong.L
+     * @date: 2020/5/22 17:11
+     */
+    @Test
+    public void testNotResp(){
+        mockController.notResp();
     }
 }

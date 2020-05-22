@@ -50,4 +50,9 @@ public class MockController {
         return respMap;
     }
 
+     public void notResp(){
+        log.info("->> mock not response");
+        restTemplate.setErrorHandler(null);
+     }
+
 }
