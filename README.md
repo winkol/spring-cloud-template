@@ -171,7 +171,9 @@
         https://blog.csdn.net/qq_34021712/article/details/79273641
         https://blog.csdn.net/lblblblblzdx/article/details/87939187
         https://www.sohu.com/a/129521820_487514
-     
+
+# spring-boot-pattern:7019
+    模式     
 
 # 项目插件
     1、阿里巴巴Java开发规约IDEA插件安装及使用
