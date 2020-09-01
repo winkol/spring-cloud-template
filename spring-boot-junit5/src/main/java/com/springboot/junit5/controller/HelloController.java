@@ -3,6 +3,7 @@ package com.springboot.junit5.controller;
 import com.springboot.junit5.mode.RequestDataVO;
 import com.springboot.junit5.mode.ResponseDataVO;
 import com.springboot.junit5.util.ProposalInfoValidate;
+import com.springboot.junit5.util.StringUtils;
 import com.springboot.junit5.util.ValidateEntUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
@@ -24,6 +25,8 @@ import java.util.HashMap;
 @Slf4j
 @RestController
 public class HelloController {
+
+    private int test;
 
     @InitBinder
     public void initBinder(WebDataBinder webDataBinder) {
@@ -79,5 +82,16 @@ public class HelloController {
                 put("age", 18);
             }});
         }};
+    }
+
+    public void testSup(){
+        log.info("->> {}", test);
+        log.info("->> {}", StringUtils.stripHtml("abcabc"));
+    }
+
+    private void testPrivate(String str){
+        log.info("->> str: {}", str);
+        log.info("->> test: {}", test);
+        log.info("->> {}", StringUtils.stripHtml("abcabc"));
     }
 }

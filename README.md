@@ -81,7 +81,8 @@
     3、请求，响应拦截（LogAspectConfig）
     4、springboot之多任务并行+线程池处理
     5、普通类获取bean工具类（SpringContextUtil）
-    6、...
+    6、powermock私有静态方法
+    7、...
 
 # spring-boot-threadqueue:7010
     ThreadPoolExecutor线程池+Queue缓冲队列实现高并发中进行下单业务
