@@ -27,33 +27,33 @@ import java.net.NetworkInterface;
  * @Author: Dong.L
  **/
 public class SnowflakeIdWorker {
-    // 时间起始标记点，作为基准，一般取系统的最近时间（一旦确定不能变动）
+    /**时间起始标记点，作为基准，一般取系统的最近时间（一旦确定不能变动）*/
     private final static long twepoch = 1288834974657L;
-    // 机器标识位数
+    /**机器标识位数*/
     private final static long workerIdBits = 5L;
-    // 数据中心标识位数
+    /**数据中心标识位数*/
     private final static long datacenterIdBits = 5L;
-    // 机器ID最大值
+    /**机器ID最大值*/
     private final static long maxWorkerId = -1L ^ (-1L << workerIdBits);
-    // 数据中心ID最大值
+    /**数据中心ID最大值*/
     private final static long maxDatacenterId = -1L ^ (-1L << datacenterIdBits);
-    // 毫秒内自增位
+    /**毫秒内自增位*/
     private final static long sequenceBits = 12L;
-    // 机器ID偏左移12位
+    /**机器ID偏左移12位*/
     private final static long workerIdShift = sequenceBits;
-    // 数据中心ID左移17位
+    /**数据中心ID左移17位*/
     private final static long datacenterIdShift = sequenceBits + workerIdBits;
-    // 时间毫秒左移22位
+    /**时间毫秒左移22位*/
     private final static long timestampLeftShift = sequenceBits + workerIdBits + datacenterIdBits;
 
     private final static long sequenceMask = -1L ^ (-1L << sequenceBits);
-    /* 上次生产id时间戳 */
+    /**上次生产id时间戳 */
     private static long lastTimestamp = -1L;
-    // 0，并发控制
+    /**0，并发控制*/
     private long sequence = 0L;
 
     private final long workerId;
-    // 数据标识id部分
+    /**数据标识id部分*/
     private final long datacenterId;
 
     public SnowflakeIdWorker() {

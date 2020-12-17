@@ -25,6 +25,30 @@ public class ResponseVO<T> {
      */
     private T data;
 
+    private ResponseVO(){}
+
+    private ResponseVO(Integer code, String message){
+        this.code = code;
+        this.message = message;
+    }
+
+    private ResponseVO(ApiCode apiCode){
+        this.code = apiCode.getCode();
+        this.message = apiCode.getMessage();
+    }
+
+    private ResponseVO(ApiCode apiCode, T t){
+        this.code = apiCode.getCode();
+        this.message = apiCode.getMessage();
+        this.data = t;
+    }
+
+    private ResponseVO(Integer code, String message, T t){
+        this.code = code;
+        this.message = message;
+        this.data = t;
+    }
+
     /**
      * @param code    状态
      * @param message 描述
@@ -34,10 +58,7 @@ public class ResponseVO<T> {
      * @Description: 成功通用处理
      */
     public static ResponseVO newResult(Integer code, String message) {
-        return new ResponseVO() {{
-            setCode(code);
-            setMessage(message);
-        }};
+        return new ResponseVO(code, message);
     }
 
     /**
@@ -48,10 +69,7 @@ public class ResponseVO<T> {
      * @Description: 成功通用处理
      */
     public static ResponseVO newResult(ApiCode apiCode) {
-        return new ResponseVO() {{
-            setCode(apiCode.getCode());
-            setMessage(apiCode.getMessage());
-        }};
+        return new ResponseVO(apiCode.getCode(), apiCode.getMessage());
     }
 
     /**
@@ -63,11 +81,7 @@ public class ResponseVO<T> {
      * @Description: 成功通用处理
      */
     public static ResponseVO newResult(ApiCode apiCode, Object data) {
-        return new ResponseVO() {{
-            setCode(apiCode.getCode());
-            setMessage(apiCode.getMessage());
-            setData(data);
-        }};
+        return new ResponseVO(apiCode, data);
     }
 
     /**
@@ -80,11 +94,7 @@ public class ResponseVO<T> {
      * @Description: 成功通用处理
      */
     public static ResponseVO newResult(Integer code, String message, Object data) {
-        return new ResponseVO() {{
-            setCode(code);
-            setMessage(message);
-            setData(data);
-        }};
+        return new ResponseVO(code, message, data);
     }
 
     /**
@@ -95,10 +105,15 @@ public class ResponseVO<T> {
      * @Description: 失败通用处理
      */
     public static ResponseVO newFailResult(String message) {
-        return new ResponseVO() {{
-            setCode(ApiCode.ERROR.getCode());
-            setMessage(message);
-        }};
+        return new ResponseVO(ApiCode.ERROR.getCode(), message);
+    }
+
+    public static ResponseVO newFailResult(ApiCode apiCode) {
+        return new ResponseVO(apiCode);
+    }
+
+    public static ResponseVO newFailResult(ApiCode apiCode, String message) {
+        return new ResponseVO(apiCode.getCode(), message);
     }
 
     @Override

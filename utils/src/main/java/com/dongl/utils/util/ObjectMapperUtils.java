@@ -75,7 +75,7 @@ public final class ObjectMapperUtils {
     public static <T> List<T> readValueList(String fromValue, Class<T> toValueType) {
         JavaType javaType = mapper.getTypeFactory().constructParametricType(List.class, toValueType);
         try {
-            return (List<T>) mapper.readValue(fromValue, javaType);
+            return mapper.readValue(fromValue, javaType);
         } catch (IOException e) {
             log.error("fromValue={}", fromValue);
             log.error("字符串转对象", e);
@@ -90,7 +90,7 @@ public final class ObjectMapperUtils {
      * @return
      * @throws IOException
      */
-    public static Map<String, Object> jsonToMap(String input) {
+    public static Map jsonToMap(String input) {
         try {
             return mapper.readValue(input, Map.class);
         } catch (IOException e) {
