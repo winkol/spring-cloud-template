@@ -55,6 +55,7 @@ import java.util.Map;
 
 /**
  * @Description: Java使用ObjectMapper做数据转换的常用工具类实现
+ *  https://www.php.cn/xml_rss-353174.html
  * @Project: com.dongl.utils.util
  * @CreateDate: Created in 2020/11/12 10:06
  * @Author: Dong.L
