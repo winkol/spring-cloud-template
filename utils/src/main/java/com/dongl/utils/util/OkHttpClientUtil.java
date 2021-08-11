@@ -39,6 +39,9 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @Description: 创建线程安全的okhttp单例
+ *  URL: https://www.cnblogs.com/Eric-zhao/p/11561578.html
+ *  较全的 OkHttpClient工具
+ *  URL：https://blog.csdn.net/u013256816/article/details/111350854
  * @Project: com.xiwei.gwx.sgcc.service.util
  * @CreateDate: Created in 2021/8/9 11:54
  * @Author: Dong.L
